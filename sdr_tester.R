@@ -46,7 +46,7 @@ ui <- dashboardPage(
                              Semicolon = ";"),
                  selected = ";"),
     # add download button
-    downloadButton("downloadReport", "Download SDR Report"),
+    downloadButton("downloadreport", "Download SDR Report"),
     downloadButton("download_plotly_v", "Download SDR based on V"),
     downloadButton("download_plotly_soc", "Download SDR based on SOC"),
     
@@ -492,7 +492,7 @@ server <- function(input, output){
     # return(voltage_all)
     # })
     # NOTE: downloadHandler must be assigned to the ID of your downloadButton
-    output$downloadReport <- downloadHandler(
+    output$downloadreport <- downloadHandler(
       filename = function() paste0("SDR Report", ".html"),
       content = function(file) {
         tempreport <- file.path(tempdir(), "sdr_analysis_report.rmd")
