@@ -495,8 +495,8 @@ server <- function(input, output){
     output$downloadReport <- downloadHandler(
       filename = function() paste0("SDR Report", ".html"),
       content = function(file) {
-        #tempReport <- file.path(tempdir(), "sdr_analysis_report.rmd")
-        #file.copy("sdr_analysis_report.rmd", tempReport, overwrite = TRUE)
+        tempreport <- file.path(tempdir(), "sdr_analysis_report.rmd")
+        file.copy("sdr_analysis_report.rmd", tempreport, overwrite = TRUE)
         
         # Set up parameters to pass to Rmd document
         #  these can be any time of R objects
@@ -509,7 +509,7 @@ server <- function(input, output){
         # Knit the document, passing in the `params` list, and eval it in a
         #  child of the global environment (this isolates the code in the document
         #  from the code in this app).
-        rmarkdown::render(tempReport, output_file = file,
+        rmarkdown::render(tempreport, output_file = file,
                           params = params,
                           envir = new.env(parent = globalenv())
         )
