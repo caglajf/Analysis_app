@@ -1,0 +1,81 @@
+---
+output: html_document
+params:
+ sdr_v: NULL
+ sdr_s: NULL
+ time1: NULL
+ time2: NULL
+---
+```{r, echo=FALSE,  fig.align='center'}
+knitr::include_graphics("C:\\Users\\cagla.odabasi\\Desktop\\siro_files\\siro_logo.png")
+```
+<center> <h1>SDR Analysis Report</h1> </center>
+
+
+<center> In this report, two log files at rest states were compared and their voltage, SOC and SDR values were reported. <center>
+
+<center> <h3>SDR</h3> </center>
+```{r echo=FALSE, out.width="100%"}
+
+p1=ggplotly(qplot( params$sdr_v$Voltage_sensor, params$sdr_v$sdr,  xlab= "Voltage sensors", ylab = "SDR(mV/day)")+
+        geom_point(aes(x = params$sdr_v$Voltage_sensor, y= params$sdr_v$sdr))+
+        theme(axis.text.x = element_text(angle = 45, vjust = 1.0, hjust = 1.0))+
+        theme(legend.position = "none",axis.text.x=element_blank()))
+      
+p2=ggplotly(qplot( params$sdr_s$Voltage_sensor, params$sdr_s$sdr_soc,  xlab= "Voltage sensors", ylab = "SDR (%SOC/day)")+
+        geom_point(aes(x = params$sdr_s$Voltage_sensor, y= params$sdr_s$sdr_soc, colour=params$sdr_s$sdr_soc>0.016))+
+        scale_colour_manual(values = c("black", "red"))+
+        theme(axis.text.x = element_text(angle = 45, vjust = 1.0, hjust = 1.0))+
+        theme(legend.position = "none",axis.text.x=element_blank()))
+
+combineWidgets(p1,p2, nrow=1)
+
+
+```
+<center> <h3>Voltage at two different timestamps</h3> </center>
+
+
+<center> At timestamp 1, maximum and minimum voltage values are `r max(params$time1$Voltage)` V and `r min(params$time1$Voltage)` V. Δ(Max-Min) voltage is `r max(params$time1$Voltage)-min(params$time1$Voltage)` V. <center>
+
+<center> At timestamp 2, maximum and minimum voltage values are `r max(params$time2$Voltage)` V and `r min(params$time1$Voltage)` V. Δ(Max-Min) voltage is `r max(params$time2$Voltage)-min(params$time2$Voltage)` V. <center>
+
+
+
+```{r echo=FALSE, out.width="100%"}
+ v1= ggplotly(qplot( params$time1$Voltage_sensor, params$time1$Voltage,  xlab= "Voltage sensors", ylab = "Voltage(V)")+
+        geom_point(aes(x = params$time1$Voltage_sensor, y= params$time1$Voltage, colour=params$time1$Voltage<3.066 ))+
+        scale_colour_manual(values = c("black", "red"))+
+        theme(axis.text.x = element_text(angle = 45, vjust = 1.0, hjust = 1.0))+
+        theme(legend.position = "none",axis.text.x=element_blank()))
+
+ v2= ggplotly(qplot( params$time2$Voltage_sensor, params$time2$Voltage,  xlab= "Voltage sensors", ylab = "Voltage(V)")+
+        geom_point(aes(x = params$time2$Voltage_sensor, y= params$time2$Voltage, colour=params$time2$Voltage<3.066 ))+
+        scale_colour_manual(values = c("black", "red"))+
+        theme(axis.text.x = element_text(angle = 45, vjust = 1.0, hjust = 1.0))+
+        theme(legend.position = "none",axis.text.x=element_blank()))
+
+combineWidgets(v1,v2, nrow=1)
+
+```
+
+
+<center> <h3>SOC at two different timestamps</h3> </center>
+
+```{r echo=FALSE, out.width="100%"}
+ s1= ggplotly(qplot( params$time1$Voltage_sensor, params$time1$soc,  xlab= "Voltage sensors", ylab = "Voltage(V)")+
+        geom_point(aes(x = params$time1$Voltage_sensor, y= params$time1$soc, colour=params$time1$soc<0 ))+
+        scale_colour_manual(values = c("black", "red"))+
+        theme(axis.text.x = element_text(angle = 45, vjust = 1.0, hjust = 1.0))+
+        theme(legend.position = "none",axis.text.x=element_blank()))
+
+ s2= ggplotly(qplot( params$time2$Voltage_sensor, params$time2$Voltage,  xlab= "Voltage sensors", ylab = "Voltage(V)")+
+        geom_point(aes(x = params$time2$Voltage_sensor, y= params$time2$soc, colour=params$time2$soc<0 ))+
+        scale_colour_manual(values = c("black", "red"))+
+        theme(axis.text.x = element_text(angle = 45, vjust = 1.0, hjust = 1.0))+
+        theme(legend.position = "none",axis.text.x=element_blank()))
+
+combineWidgets(s1,s2, nrow=1)
+
+```
+
+
